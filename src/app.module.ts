@@ -20,7 +20,7 @@ imports: [
       username: config.get('DB_USER'),
       password: config.get('DB_PASS'),
       database: config.get('DB_NAME'),
-      entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+      entities: [__dirname + '/**/entitys/*.entity{.ts,.js}'],
       synchronize: true, //no en produccion
     }),
   }),
