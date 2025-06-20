@@ -1,33 +1,28 @@
-import { Inject, Module } from '@nestjs/common';
-import { UserModule } from './user/user.module';
+import { Module } from '@nestjs/common';
 import { TaskModule } from './task/task.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { config } from 'process';
 import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
-imports: [
-  ConfigModule.forRoot({
-    isGlobal: true,
-    envFilePath: '.env',
-  }),
-  TypeOrmModule.forRootAsync({
-    imports: [ConfigModule],
-    inject: [ConfigService],
-    useFactory: async (config: ConfigService) => ({
-      type: 'mysql',
-      host: config.get('DB_HOST'),
-      port: config.get('DB_PORT'),
-      username: config.get('DB_USER'),
-      password: config.get('DB_PASS'),
-      database: config.get('DB_NAME'),
-      entities: [__dirname + '/**/entitys/*.entity{.ts,.js}'],
-      synchronize: true, //no en produccion
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
     }),
-  }),
-  TaskModule,
-],
-
-
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        type: 'mysql',
+        host: config.get('DB_HOST'),
+        port: config.get('DB_PORT'),
+        username: config.get('DB_USER'),
+        password: config.get('DB_PASS'),
+        database: config.get('DB_NAME'),
+        entities: [__dirname + '/**/entitys/*.entity{.ts,.js}'],
+        synchronize: true, //no en produccion
+      }),
+    }),
+    TaskModule,
+  ],
 })
-
 export class AppModule {}

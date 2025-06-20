@@ -1,6 +1,6 @@
 export class userDto {
-    id?: number;
-    name: string;
-    age: number;
-    state: boolean;
+  id?: number;
+  name: string;
+  age: number;
+  state: boolean;
 }
